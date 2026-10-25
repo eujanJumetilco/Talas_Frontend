@@ -1,20 +1,22 @@
 'use client';
 
-import { CircleMarker, Popup } from 'react-leaflet';
-import { STATION_COLOR } from '../lib/constants';
+import { Marker, Popup } from 'react-leaflet';
+import { owlPinIcon } from '../lib/mapIcns';
 
-// One blue dot per police station. The station with highlightId is drawn larger.
-// interactive=false lets clicks go through to the map (Leaflet only reads it when the layer is created).
-export default function StationLayer({ stations, highlightId, interactive = true }) {
+// Icons are created once, not on every render
+const NORMAL_ICON = owlPinIcon(40);
+const HIGHLIGHT_ICON = owlPinIcon(58);
+
+// One owl pin per police station. The station with highlightId is drawn larger.
+export default function StationLayer({ stations, highlightId }) {
   return (
     <>
       {stations.map((station) => (
-        <CircleMarker
+        <Marker
           key={station.id}
-          interactive={interactive}
-          center={[station.lat, station.lng]}
-          radius={station.id === highlightId ? 12 : 7}
-          pathOptions={{ color: '#ffffff', weight: 2, fillColor: STATION_COLOR, fillOpacity: 1 }}
+          position={[station.lat, station.lng]}
+          icon={station.id === highlightId ? HIGHLIGHT_ICON : NORMAL_ICON}
+          zIndexOffset={station.id === highlightId ? 1000 : 0}
         >
           <Popup>
             <strong>Police station</strong>
@@ -27,7 +29,7 @@ export default function StationLayer({ stations, highlightId, interactive = true
               </>
             )}
           </Popup>
-        </CircleMarker>
+        </Marker>
       ))}
     </>
   );

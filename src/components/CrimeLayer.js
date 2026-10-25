@@ -7,9 +7,8 @@ import 'react-leaflet-cluster/dist/assets/MarkerCluster.css';
 import 'react-leaflet-cluster/dist/assets/MarkerCluster.Default.css';
 import { formatDateTime, labelOf, typeColor } from '../lib/format';
 
-// One colored dot per crime, grouped into numbered clusters where they are close together.
-// interactive=false lets clicks go through to the map (Leaflet only reads it when the layer is created).
-function CrimeLayer({ crimes, meta, interactive = true }) {
+// One colored dot per crime (the color shows the type), grouped into numbered clusters where they are close together
+function CrimeLayer({ crimes, meta }) {
   return (
     <MarkerClusterGroup chunkedLoading maxClusterRadius={45} showCoverageOnHover={false}>
       {crimes.map((crime) => {
@@ -17,10 +16,9 @@ function CrimeLayer({ crimes, meta, interactive = true }) {
         return (
           <CircleMarker
             key={crime.id}
-            interactive={interactive}
             center={[crime.lat, crime.lng]}
             radius={5}
-            pathOptions={{ color, fillColor: color, fillOpacity: 0.7, weight: 1 }}
+            pathOptions={{ color: '#ffffff', fillColor: color, fillOpacity: 0.85, weight: 1 }}
           >
             <Popup>
               <strong>{labelOf(crime.type, meta?.crimeTypes)}</strong>

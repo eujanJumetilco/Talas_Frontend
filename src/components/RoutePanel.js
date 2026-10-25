@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Building2, LoaderCircle, Navigation, TriangleAlert, X } from 'lucide-react';
+import { ArrowUpDown, Building2, LoaderCircle, Navigation, TriangleAlert, X } from 'lucide-react';
 import { findRoutes, geocode, getNearbyStations } from '../lib/api';
 import { MAX_NEARBY_CRIMES } from '../lib/constants';
 import { formatDateTime, labelOf, typeColor } from '../lib/format';
@@ -9,13 +9,13 @@ import { formatDateTime, labelOf, typeColor } from '../lib/format';
 // A list of radio buttons so the user can pick one of several places found for a search text
 function PlaceChoice({ title, options, chosen, onChoose }) {
   return (
-    <fieldset className="rounded-lg border border-line bg-paper p-3">
+    <fieldset className="rounded-[10px] border border-line bg-sky p-3">
       <legend className="px-1 text-xs font-bold">{title}: pick one</legend>
       {options.map((place) => (
         <label key={`${place.lat},${place.lng}`} className="flex items-start gap-2 py-1 text-sm">
           <input
             type="radio"
-            className="mt-1 accent-brand"
+            className="mt-1 accent-deep"
             checked={chosen === place}
             onChange={() => onChoose(place)}
           />
@@ -123,6 +123,16 @@ export default function RoutePanel({
     if (startPlace) runRoute(startPlace, place);
   }
 
+  // Swap the start and the destination (the design's ↕ button)
+  function swapPlaces() {
+    setStartText(destText);
+    setDestText(startText);
+    setStartOptions(null);
+    setDestOptions(null);
+    setStartPlace(null);
+    setDestPlace(null);
+  }
+
   function handleClear() {
     setStartOptions(null);
     setDestOptions(null);
@@ -152,10 +162,9 @@ export default function RoutePanel({
 
   return (
     <div className="space-y-4">
-      <form onSubmit={handleFind} className="card space-y-3">
-        <p className="eyebrow">Plan a route</p>
-        <div>
-          <label htmlFor="start" className="field-label">Start</label>
+      <form onSubmit={handleFind} className="panel space-y-3.5 p-5">
+                <div>
+          <label htmlFor="start" className="field-label">Starting point</label>
           <input
             id="start"
             className="input"
@@ -210,8 +219,11 @@ export default function RoutePanel({
             {busy ? <LoaderCircle size={16} className="animate-spin" /> : <Navigation size={16} />}
             {busy ? 'Finding route...' : 'Find Route'}
           </button>
+          <button type="button" className="btn-outline px-3.5" onClick={swapPlaces} aria-label="Swap start and destination">
+            <ArrowUpDown size={16} />
+          </button>
           {routeResult && (
-            <button type="button" className="btn-ghost" onClick={handleClear}>
+            <button type="button" className="btn-outline" onClick={handleClear}>
               <X size={16} /> Clear route
             </button>
           )}
@@ -230,13 +242,13 @@ export default function RoutePanel({
                 key={index}
                 type="button"
                 onClick={() => onSelectRoute(index)}
-                className={`card w-full text-left transition ${
-                  isSelected ? (isRecommended ? 'border-green-600 ring-2 ring-green-600/20' : 'border-brand ring-2 ring-brand/20') : 'hover:border-brand/40'
+                className={`panel w-full p-4 text-left transition ${
+                  isSelected ? (isRecommended ? 'border-mint ring-2 ring-mint/25' : 'border-deep ring-2 ring-deep/20') : 'hover:border-deep/50'
                 }`}
               >
                 <p className="font-bold">
                   {route.label}
-                  {isRecommended && <span className="ml-1 text-green-700">(recommended)</span>}
+                  {isRecommended && <span className="ml-1 text-mint">(recommended)</span>}
                 </p>
                 <p className="mt-1 text-sm text-muted">
                   {route.distanceKm} km · {route.durationMin} min
@@ -252,7 +264,7 @@ export default function RoutePanel({
           })}
 
           {routeResult.warnings.length > 0 && (
-            <ul className="space-y-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+            <ul className="msg-warning space-y-1">
               {routeResult.warnings.map((warning) => (
                 <li key={warning} className="flex gap-2">
                   <TriangleAlert size={15} className="mt-0.5 shrink-0" /> {warning}
@@ -266,7 +278,7 @@ export default function RoutePanel({
           )}
 
           {selected && selected.nearbyCrimes.length > 0 && (
-            <div className="card">
+            <div className="panel p-5">
               <p className="eyebrow mb-2">Reported crimes near this route</p>
               <ul className="divide-y divide-line text-sm">
                 {selected.nearbyCrimes.map((crime) => (
@@ -287,9 +299,9 @@ export default function RoutePanel({
         </div>
       )}
 
-      <div className="card space-y-2">
+      <div className="panel space-y-2 p-5">
         <p className="eyebrow">Police stations</p>
-        <button type="button" className="btn-ghost w-full" onClick={showNearbyStations} disabled={stationsBusy}>
+        <button type="button" className="btn-outline w-full" onClick={showNearbyStations} disabled={stationsBusy}>
           {stationsBusy ? <LoaderCircle size={16} className="animate-spin" /> : <Building2 size={16} />}
           Show nearby police stations
         </button>
@@ -305,7 +317,7 @@ export default function RoutePanel({
                 <button
                   type="button"
                   onClick={() => onShowStation(station)}
-                  className="w-full py-2 text-left text-sm hover:text-brand"
+                  className="w-full py-2 text-left text-sm hover:text-deep"
                 >
                   <strong>{station.address}</strong>
                   <span className="block text-muted">

@@ -4,6 +4,14 @@ Save this file as `CLAUDE.md` in the root of the `talas-frontend` project, then 
 
 > Read CLAUDE.md fully, then execute phases F1 to F10 in order. Stop and ask me only for the things listed under "When to stop and ask".
 
+> **Design update (2026-10-25):** the UI now follows the `TalasFrontendDesign` prototype. The single-page sidebar
+> described below was split into pages (`/`, `/crime-map`, `/route-planner`, `/insights`) plus a "Report an
+> incident" dialog; state moved from `page.js` into per-page screens in `src/components/screens/` and small hooks in
+> `src/hooks/`. The API contract (section 4), time rules, wording rules and `src/lib/api.js` are unchanged. Other
+> differences: Esri dark-gray tiles instead of OSM, owl-pin markers for stations, start/end and the report spot, and
+> the "Only the current map view" filter was dropped (the map already loads the visible area). See README.md for the
+> current file layout.
+
 ---
 
 ## 1. Project context

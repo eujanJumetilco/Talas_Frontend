@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import { CircleMarker, Polyline, Popup, Tooltip, useMap } from 'react-leaflet';
+import { CircleMarker, Marker, Polyline, Popup, Tooltip, useMap } from 'react-leaflet';
+import { ROUTE_COLORS } from '../lib/constants';
 import { formatDateTime, labelOf, typeColor } from '../lib/format';
+import { owlPinIcon } from '../lib/mapIcons';
 
 // Zooms the map so every route fits on screen whenever a new result arrives
 function FitToRoutes({ routes }) {
@@ -11,34 +13,30 @@ function FitToRoutes({ routes }) {
   useEffect(() => {
     const points = routes.flatMap((route) => route.path);
     if (points.length === 0) return;
-    // On wide maps, keep the routes clear of the legend in the bottom-left corner
-    const leftPadding = map.getSize().x > 700 ? 240 : 40;
     // No animation: two quick calls (React runs effects twice in development) could otherwise
     // leave Leaflet's zoom animation half-finished, with missing map tiles
-    map.fitBounds(points, { paddingTopLeft: [leftPadding, 40], paddingBottomRight: [40, 40], animate: false });
+    map.fitBounds(points, { padding: [40, 40], animate: false });
   }, [map, routes]);
 
   return null;
 }
 
-// A start or end point: a dark dot with a label that is always visible
+const END_ICON = owlPinIcon(44);
+
+// A start or end point: an owl pin with a label that is always visible
 function EndPoint({ point, label }) {
   return (
-    <CircleMarker
-      center={[point.lat, point.lng]}
-      radius={8}
-      pathOptions={{ color: '#ffffff', weight: 3, fillColor: '#071426', fillOpacity: 1 }}
-    >
-      <Tooltip permanent direction="top" offset={[0, -8]} className="map-tag">
+    <Marker position={[point.lat, point.lng]} icon={END_ICON}>
+      <Tooltip permanent direction="top" className="map-tag">
         {label}
       </Tooltip>
-    </CircleMarker>
+    </Marker>
   );
 }
 
 export default function RouteLayer({ result, selectedIndex, onSelect, origin, destination, meta }) {
   const selected = result.routes[selectedIndex];
-  const selectedColor = selectedIndex === result.recommendedIndex ? '#16a34a' : '#2563eb';
+  const selectedColor = selectedIndex === result.recommendedIndex ? ROUTE_COLORS.recommended : ROUTE_COLORS.selected;
 
   return (
     <>
@@ -50,7 +48,7 @@ export default function RouteLayer({ result, selectedIndex, onSelect, origin, de
           <Polyline
             key={`other-${index}`}
             positions={route.path}
-            pathOptions={{ color: '#6b7280', weight: 4, dashArray: '8 8' }}
+            pathOptions={{ color: ROUTE_COLORS.other, weight: 4, dashArray: '8 8' }}
             eventHandlers={{ click: () => onSelect(index) }}
           />
         ),
@@ -72,7 +70,7 @@ export default function RouteLayer({ result, selectedIndex, onSelect, origin, de
             key={crime.id}
             center={[crime.lat, crime.lng]}
             radius={8}
-            pathOptions={{ color: '#000000', weight: 1.5, fillColor: typeColor(crime.type), fillOpacity: 0.9 }}
+            pathOptions={{ color: '#ffffff', weight: 2, fillColor: typeColor(crime.type), fillOpacity: 0.95 }}
           >
             <Popup>
               <strong>{labelOf(crime.type, meta?.crimeTypes)}</strong>

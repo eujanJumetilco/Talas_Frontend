@@ -1,0 +1,200 @@
+/* Decorative artwork on the home page (feature card pictures and the report panel), from the design prototype.
+   Colors are the final light-blue theme. */
+
+.art-box {
+  position: relative;
+  height: 160px;
+  margin: 17px 0 20px;
+  overflow: hidden;
+  border: 1px solid rgba(52, 105, 158, 0.16);
+  border-radius: 14px;
+  background-color: #d7eaff;
+}
+
+/* Card 1: a tilted street grid with owl pins */
+.art-map {
+  background: radial-gradient(ellipse at 58% 35%, rgba(72, 139, 206, 0.3), transparent 48%), linear-gradient(140deg, #c4def7, #e6f2ff);
+}
+.art-map-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.48;
+  background-image: linear-gradient(rgba(53, 103, 151, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(53, 103, 151, 0.15) 1px, transparent 1px);
+  background-size: 25px 25px;
+  transform: rotate(-8deg) scale(1.2);
+}
+.art-map-grid::after {
+  content: "";
+  position: absolute;
+  inset: 15% -10%;
+  background: repeating-linear-gradient(38deg, transparent 0 20px, rgba(120, 186, 225, 0.35) 21px 23px, transparent 24px 42px);
+}
+.art-pin {
+  position: absolute;
+  z-index: 2;
+  width: 22px;
+  height: 27px;
+  background: url("/images/talas-owl-pin.svg") center / contain no-repeat;
+}
+.art-orbit {
+  position: absolute;
+  left: 34%;
+  top: 18%;
+  width: 150px;
+  height: 90px;
+  border: 1px dashed rgba(45, 103, 159, 0.38);
+  border-radius: 50%;
+  transform: rotate(-25deg);
+}
+.art-tag {
+  position: absolute;
+  left: 12px;
+  bottom: 11px;
+  padding: 6px 9px;
+  border: 1px solid rgba(45, 103, 159, 0.18);
+  border-radius: 7px;
+  background: rgba(248, 251, 255, 0.82);
+  color: #244d73;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+}
+.art-tag b {
+  margin-left: 5px;
+  color: #eeb33e;
+}
+
+/* Card 2: a dotted route between three points */
+.art-route {
+  background: linear-gradient(145deg, #d5e9fc, #eaf4ff);
+}
+.art-route svg {
+  position: absolute;
+  inset: 13px 8px 0;
+  width: calc(100% - 16px);
+  height: calc(100% - 13px);
+  overflow: visible;
+}
+.art-route-wide {
+  fill: none;
+  stroke: rgba(45, 103, 159, 0.25);
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+.art-route-line {
+  fill: none;
+  stroke: #2d679f;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 6 5;
+}
+.art-node {
+  position: absolute;
+  z-index: 2;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #eeb33e;
+  box-shadow: 0 0 0 4px rgba(238, 179, 62, 0.18);
+}
+.art-caption {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  color: #456581;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+}
+
+/* Card 3: colorful bars */
+.art-chart {
+  padding: 16px 15px 12px;
+  background: linear-gradient(145deg, #d5e9fc, #eaf4ff);
+}
+.art-chart-label {
+  display: flex;
+  justify-content: space-between;
+  color: #456581;
+  font-size: 7px;
+  letter-spacing: 0.13em;
+}
+.art-chart-label span {
+  color: #2d679f;
+}
+.art-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 90px;
+  margin-top: 10px;
+  border-bottom: 1px solid rgba(52, 105, 158, 0.2);
+}
+.art-bars i {
+  flex: 1;
+  min-width: 5px;
+  border-radius: 4px 4px 0 0;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+.art-bars i:nth-child(3n + 1) { background: #eeb33e; }
+.art-bars i:nth-child(3n + 2) { background: #5595d1; }
+.art-bars i:nth-child(3n) { background: #56aa9d; }
+.art-months {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+  color: #738ba6;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+}
+
+/* Report panel picture: a shield with the owl and two orbit rings */
+.orbit {
+  position: absolute;
+  width: 280px;
+  height: 120px;
+  border: 1px solid rgba(45, 103, 159, 0.27);
+  border-radius: 50%;
+  transform: rotate(-32deg);
+}
+.orbit-b {
+  width: 300px;
+  height: 180px;
+  border-color: rgba(50, 142, 130, 0.28);
+  transform: rotate(42deg);
+}
+.shield {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 120px;
+  height: 120px;
+  border: 1px dashed #eeb33e;
+  border-radius: 34px 34px 38px 38px;
+  background: #cfe3f8;
+  box-shadow: 0 10px 28px rgba(37, 83, 127, 0.14), inset 0 0 0 7px rgba(255, 255, 255, 0.34);
+  transform: rotate(-4deg);
+}
+.shield img {
+  width: 67px;
+  height: 80px;
+  object-fit: contain;
+}
+
+@keyframes content-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0% { transform: scale(0.7); opacity: 0.8; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+.rise { animation: content-rise 0.8s 0.15s ease both; }
+.pulse-dot { position: relative; }
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid #328e82;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}

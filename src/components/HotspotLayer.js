@@ -4,15 +4,13 @@ import { Popup, Rectangle } from 'react-leaflet';
 import { HOTSPOT_COLOR } from '../lib/constants';
 import { labelOf } from '../lib/format';
 
-// One red square per hotspot (a ~250 m grid square with a high weighted crime score).
-// interactive=false lets clicks go through to the map (Leaflet only reads it when the layer is created).
-export default function HotspotLayer({ hotspots, meta, interactive = true }) {
+// One red square per hotspot (a ~250 m grid square with a high weighted crime score)
+export default function HotspotLayer({ hotspots, meta }) {
   return (
     <>
       {hotspots.map((hotspot) => (
         <Rectangle
           key={hotspot.id}
-          interactive={interactive}
           bounds={[
             [hotspot.bounds.south, hotspot.bounds.west],
             [hotspot.bounds.north, hotspot.bounds.east],
