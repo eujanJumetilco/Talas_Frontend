@@ -1,11 +1,11 @@
 'use client';
 
 import { Marker, Popup } from 'react-leaflet';
-import { owlPinIcon } from '../lib/mapIcns';
+import { owlPolicePinIcon } from '../lib/mapIcons';
 
 // Icons are created once, not on every render
-const NORMAL_ICON = owlPinIcon(40);
-const HIGHLIGHT_ICON = owlPinIcon(58);
+const NORMAL_ICON = owlPolicePinIcon(40);
+const HIGHLIGHT_ICON = owlPolicePinIcon(58);
 
 // One owl pin per police station. The station with highlightId is drawn larger.
 export default function StationLayer({ stations, highlightId }) {

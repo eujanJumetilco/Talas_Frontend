@@ -1,7 +1,8 @@
 // App-wide settings. Change values here, not inside components.
 
-// Where the Spring Boot backend runs, and whether to use the built-in sample data instead
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+// Where the Spring Boot backend runs, and whether to use the built-in sample data instead.
+// A trailing "/" is removed so "https://api.example.com/" does not turn into "https://api.example.com//api/...".
+export const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080').replace(/\/+$/, '');
 export const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === 'true';
 
 // Map start position (Manila)
